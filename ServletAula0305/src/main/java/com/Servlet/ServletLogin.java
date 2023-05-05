@@ -1,20 +1,21 @@
 package com.Servlet;
 
 import java.io.IOException;
+import com.Models.*;
 import java.io.PrintWriter;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(urlPatterns = {"/login", "/inserir", "/consultar"})
+import com.BancoDados.BancoDados;
+
+@WebServlet(urlPatterns = {"/login", "/home"})
 public class ServletLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	BancoDados bd = new BancoDados("jdbc:mysql://localhost:3306/student", "root", "");
        
-
-	
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String method = request.getMethod();
 		if(method.equals("POST")) {
@@ -31,19 +32,49 @@ public class ServletLogin extends HttpServlet {
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		String action=request.getServletPath();
+		if(action.equals("/home")) {
+			response.sendRedirect("index.html");
+		}
+		
+		
 	}
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
+		Pessoa p = new Pessoa(username,password);
+		
+		bd.conectar();
+		
 		PrintWriter out = response.getWriter();
-		if(username.equals("Lucas")&&password.equals("123")) {
-			out.print("Olá "+username+" sua senha é:"+password);
+		if(bd.consultarPessoa(p)) {
+			out.println("<!doctype html>");
+			out.println("<html>");
+			out.println("<head>");
+			out.println("<title> Servlet Login</title>");
+			out.println("</head>");
+			out.println("<body>");
+			out.println("<h1>Servlet Login</h1>");
+			out.println("Olá "+p.getNome()+" sua senha é:"+p.getPassword());
+			out.println("<a href=\"home\">Voltar</a>");
+			out.println("</body>");
+			out.println("</html>");
+			
 		}else {
-			out.print("Não encontrado");
-		}
+			out.println("<!doctype html>");
+			out.println("<html>");
+			out.println("<head>");
+			out.println("<title> Servlet Login</title>");
+			out.println("</head>");
+			out.println("<body>");
+			out.println("<h1>Servlet Login</h1>");
+			out.println("Não Encontrado");
+			out.println("<a href=\"home\">Voltar</a>");
+			out.println("</body>");
+			out.println("</html>");
+		}	
 	}
 
 }
