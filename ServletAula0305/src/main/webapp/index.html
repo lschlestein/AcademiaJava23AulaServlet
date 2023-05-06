@@ -2,18 +2,23 @@
 <html lang="pt-br">
 <head>
 <meta charset="utf-8">
-<title>Servlet Login</title>
+<title>Servlet Pessoas - Home</title>
 </head>
 <body>
-	<form action="login" method="post">
-		<label for="usernamelbl">Entre com seu usuário:</label> <input
-			type="text" name="username" required><br> <label
-			for="passwordlbl">Entre com sua senha:</label> <input type="password"
-			name="password" required><br> <input type="submit"
-			name="submit" value="submit"> <input type="reset">
+	<h1>Home Page</h1>
+	<p>
+	<form method="post" action="listar" class="inline">
+		<input type="hidden" name="extra_submit_param"
+			value="extra_submit_value">
+		<button type="submit" name="submit_param" value="submit_value"
+			class="link-button">Listar Pessoas</button>
 	</form>
-
-	<a href="home">Voltar</a>
-
+	<p>
+	<form method="post" action="add" class="inline">
+		<input type="hidden" name="extra_submit_param"
+			value="extra_submit_value">
+		<button type="submit" name="submit_param" value="submit_value"
+			class="link-button">Cadastrar Pessoas</button>
+	</form>
 </body>
 </html>

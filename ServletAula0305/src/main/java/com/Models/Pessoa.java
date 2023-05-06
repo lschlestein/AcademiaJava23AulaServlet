@@ -32,5 +32,7 @@ public class Pessoa {
 		this.nome = nome;
 		this.password = password;
 	}
+	public Pessoa() {
+	}
 
 }
